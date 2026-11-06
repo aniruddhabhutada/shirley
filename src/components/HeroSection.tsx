@@ -1,11 +1,49 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ArrowRight, Sparkles, CheckCircle2, ShieldCheck, Heart } from 'lucide-react';
 
 export default function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Ensure muted is set explicitly on DOM node for strict mobile autoplay
+    video.muted = true;
+    video.defaultMuted = true;
+
+    // Respect user reduced-motion preference
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (motionQuery.matches) {
+      video.pause();
+      return;
+    }
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        // Autoplay policy prevented playback; poster fallback remains visible
+        console.warn('Hero video autoplay prevented by browser policy:', err);
+      });
+    }
+
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        video.pause();
+      } else {
+        video.play().catch(() => {});
+      }
+    };
+
+    motionQuery.addEventListener('change', handleMotionChange);
+    return () => {
+      motionQuery.removeEventListener('change', handleMotionChange);
+    };
+  }, []);
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-shirley-blush-light via-shirley-cream to-shirley-cream pt-8 pb-16 lg:pt-16 lg:pb-24 border-b border-shirley-blush-border/40">
       {/* Subtle background ambient glow */}
@@ -80,43 +118,50 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: High-End Product Editorial Composition */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative mx-auto max-w-lg lg:max-w-none">
+          {/* Right Column: High-End Cinematic Product Animation (9:16 Portrait) */}
+          <div className="lg:col-span-6 relative flex justify-center">
+            <div className="relative mx-auto w-full max-w-[320px] sm:max-w-[360px] lg:max-w-[390px]">
               {/* Decorative pastel backdrop container */}
-              <div className="relative rounded-3xl bg-gradient-to-tr from-shirley-peach/50 via-shirley-blush/60 to-shirley-lavender/30 p-3 sm:p-5 border border-white/80 shadow-soft-plum">
-                <div className="relative rounded-2xl overflow-hidden aspect-[4/5] sm:aspect-[4/5] bg-shirley-blush-light shadow-inner">
-                  {/* Real Product Photography */}
-                  <Image
-                    src="/images/product-cycora.webp"
-                    alt="SHIRLEY PERIOD SUPPORT Formulation Mockup"
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-center transition-transform duration-700 hover:scale-105"
-                  />
+              <div className="relative rounded-3xl bg-gradient-to-tr from-shirley-peach/50 via-shirley-blush/60 to-shirley-lavender/30 p-2.5 sm:p-4 border border-white/80 shadow-soft-plum">
+                <div className="relative rounded-2xl overflow-hidden aspect-[9/16] bg-shirley-blush-light shadow-inner flex items-center justify-center">
+                  {/* HTML5 Cinematic Hero Video Animation */}
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    poster="/images/shirley-hero-poster.webp"
+                    className="shirley-hero-video w-full h-full object-cover object-center rounded-2xl"
+                    aria-label="SHIRLEY Cinematic Product Animation"
+                  >
+                    <source src="/videos/shirley-hero.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
 
                   {/* Gradient bottom overlay for subtle text readability */}
                   <div className="absolute inset-0 bg-gradient-to-t from-shirley-plum-rich/40 via-transparent to-transparent pointer-events-none" />
 
                   {/* Floating badge inside picture */}
-                  <div className="absolute top-4 left-4 glass-pill px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm">
+                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4 glass-pill px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm pointer-events-none">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[11px] font-bold tracking-wider text-shirley-plum-rich uppercase">
+                    <span className="text-[10px] sm:text-[11px] font-bold tracking-wider text-shirley-plum-rich uppercase">
                       Formula 01 · PERIOD SUPPORT
                     </span>
                   </div>
 
-                  <div className="absolute bottom-4 left-4 right-4 glass-pill p-3.5 rounded-xl border border-white/60 shadow-lg flex items-center justify-between">
+                  {/* Bottom glass pill overlay */}
+                  <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 glass-pill p-3 sm:p-3.5 rounded-xl border border-white/60 shadow-lg flex items-center justify-between pointer-events-none">
                     <div>
-                      <p className="text-[11px] font-semibold tracking-wider text-shirley-berry-vibrant uppercase">
+                      <p className="text-[10px] sm:text-[11px] font-semibold tracking-wider text-shirley-berry-vibrant uppercase">
                         Menstrual Wellness Drink
                       </p>
                       <p className="text-xs sm:text-sm font-serif font-medium text-shirley-plum-rich">
                         Strawberry Lemonade · 15 Daily Sachets
                       </p>
                     </div>
-                    <span className="px-2.5 py-1 rounded-full bg-shirley-plum-rich text-white text-[10px] font-bold tracking-wider uppercase">
+                    <span className="px-2 sm:px-2.5 py-1 rounded-full bg-shirley-plum-rich text-white text-[9px] sm:text-[10px] font-bold tracking-wider uppercase">
                       IN R&amp;D
                     </span>
                   </div>
@@ -124,7 +169,7 @@ export default function HeroSection() {
               </div>
 
               {/* Floating decorative chip: Natural Ingredients */}
-              <div className="absolute -bottom-5 -left-4 sm:left-2 bg-white rounded-2xl p-3.5 shadow-elevated border border-shirley-blush-border/60 max-w-[210px] hidden sm:block animate-float">
+              <div className="absolute -bottom-4 -left-3 sm:left-2 bg-white rounded-2xl p-3 sm:p-3.5 shadow-elevated border border-shirley-blush-border/60 max-w-[210px] hidden sm:block animate-float">
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-6 h-6 rounded-full bg-shirley-blush flex items-center justify-center text-shirley-berry-vibrant">
                     <Sparkles className="w-3.5 h-3.5" />
