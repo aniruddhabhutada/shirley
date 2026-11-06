@@ -46,7 +46,7 @@ export default function Header() {
           <Link href="/" className="flex items-center group relative z-10">
             <div className="relative h-9 sm:h-11 w-32 sm:w-40 transition-transform group-hover:scale-[1.02]">
               <Image
-                src="/images/shirley-logo-trans.png"
+                src="/images/shirley-logo-trans.webp"
                 alt="SHIRLEY Wellness"
                 fill
                 priority

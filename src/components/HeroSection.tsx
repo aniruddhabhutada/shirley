@@ -88,7 +88,7 @@ export default function HeroSection() {
                 <div className="relative rounded-2xl overflow-hidden aspect-[4/5] sm:aspect-[4/5] bg-shirley-blush-light shadow-inner">
                   {/* Real Product Photography */}
                   <Image
-                    src="/images/product-cycora.png"
+                    src="/images/product-cycora.webp"
                     alt="SHIRLEY PERIOD SUPPORT Formulation Mockup"
                     fill
                     priority

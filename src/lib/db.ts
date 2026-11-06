@@ -1,37 +1,85 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import crypto from 'crypto';
 import { FoundingMember, RegisterInput } from './types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'registrations.json');
 
-// Ensure directory exists
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-}
+// Ephemeral fallback directory for serverless environments (Netlify / AWS Lambda)
+const TMP_DB_FILE = path.join(os.tmpdir(), 'shirley_registrations.json');
 
-// In-memory cache + file sync
+// In-memory cache to guarantee zero-latency reads & serverless fallback resilience
+let memoryCache: { members: FoundingMember[]; nextMemberNumber: number } | null = null;
+
+// In-memory cache + multi-layer file sync (repository file -> ephemeral /tmp -> memory)
 function readData(): { members: FoundingMember[]; nextMemberNumber: number } {
+  if (memoryCache && memoryCache.members && memoryCache.members.length > 0) {
+    return memoryCache;
+  }
+
+  // 1. Check if ephemeral tmp file exists (from previous writes in this serverless container)
+  try {
+    if (fs.existsSync(TMP_DB_FILE)) {
+      const raw = fs.readFileSync(TMP_DB_FILE, 'utf-8');
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed.members)) {
+        memoryCache = {
+          members: parsed.members,
+          nextMemberNumber: parsed.nextMemberNumber || 101,
+        };
+        return memoryCache;
+      }
+    }
+  } catch (err) {
+    // ignore
+  }
+
+  // 2. Check bundled repository data file
   try {
     if (fs.existsSync(DB_FILE)) {
       const raw = fs.readFileSync(DB_FILE, 'utf-8');
       const parsed = JSON.parse(raw);
-      return {
+      memoryCache = {
         members: Array.isArray(parsed.members) ? parsed.members : [],
         nextMemberNumber: parsed.nextMemberNumber || 101,
       };
+      return memoryCache;
     }
   } catch (err) {
-    console.error('Error reading db file, initializing fresh:', err);
+    console.error('Error reading repository db file:', err);
   }
-  return { members: [], nextMemberNumber: 101 };
+
+  memoryCache = { members: [], nextMemberNumber: 101 };
+  return memoryCache;
 }
 
 function writeData(data: { members: FoundingMember[]; nextMemberNumber: number }): void {
-  const tmpFile = `${DB_FILE}.${Date.now()}.tmp`;
-  fs.writeFileSync(tmpFile, JSON.stringify(data, null, 2), 'utf-8');
-  fs.renameSync(tmpFile, DB_FILE);
+  // Always update in-memory cache first
+  memoryCache = data;
+
+  const payload = JSON.stringify(data, null, 2);
+
+  // Attempt 1: Write to local project directory (standard Node.js / dev / persistent server)
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    const tmpFile = `${DB_FILE}.${Date.now()}.tmp`;
+    fs.writeFileSync(tmpFile, payload, 'utf-8');
+    fs.renameSync(tmpFile, DB_FILE);
+    return;
+  } catch (err) {
+    // Read-only filesystem detected (e.g. Netlify / Vercel serverless environment)
+  }
+
+  // Attempt 2: Write to os.tmpdir() (always writable in Netlify / Lambda serverless containers)
+  try {
+    fs.writeFileSync(TMP_DB_FILE, payload, 'utf-8');
+  } catch (tmpErr) {
+    console.warn('[SHIRLEY DB] Operating in memory-only mode due to restricted serverless filesystem.');
+  }
 }
 
 // Generate referral code like "SHIRLEY-8492"
@@ -156,4 +204,3 @@ export function formatMemberResponse(member: FoundingMember, origin: string) {
     createdAt: member.createdAt,
   };
 }
-

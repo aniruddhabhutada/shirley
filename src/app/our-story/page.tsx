@@ -36,7 +36,7 @@ export default function OurStoryPage() {
             <div className="rounded-3xl overflow-hidden bg-shirley-blush-light p-4 border border-shirley-blush-border/60 shadow-elevated">
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
                 <Image
-                  src="/images/product-cycora.png"
+                  src="/images/product-cycora.webp"
                   alt="SHIRLEY Botanical Research and Formulation"
                   fill
                   className="object-cover object-center"

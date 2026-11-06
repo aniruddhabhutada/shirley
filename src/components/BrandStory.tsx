@@ -16,7 +16,7 @@ export default function BrandStory() {
               <div className="relative rounded-3xl bg-gradient-to-tr from-shirley-blush to-shirley-peach p-4 shadow-elevated border border-white">
                 <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-shirley-blush-light">
                   <Image
-                    src="/images/product-inosia.png"
+                    src="/images/product-inosia.webp"
                     alt="SHIRLEY Botanical Formulation Inspiration"
                     fill
                     sizes="(max-width: 768px) 100vw, 40vw"

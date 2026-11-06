@@ -96,7 +96,7 @@ export default function ProductVideoSpotlight() {
             <div className="lg:col-span-5 flex flex-col items-center">
               <ProductVideoPlayer
                 src="/videos/shirley-period-support.mp4"
-                poster="/videos/shirley-period-support-poster.jpg"
+                poster="/videos/shirley-period-support-poster.webp"
                 title="SHIRLEY PERIOD SUPPORT"
                 badge="PERIOD SUPPORT AD"
               />
@@ -116,7 +116,7 @@ export default function ProductVideoSpotlight() {
             <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center">
               <ProductVideoPlayer
                 src="/videos/shirley-pcos-support.mp4"
-                poster="/videos/shirley-pcos-support-poster.jpg"
+                poster="/videos/shirley-pcos-support-poster.webp"
                 title="SHIRLEY PCOS SUPPORT"
                 badge="PCOS SUPPORT AD"
               />

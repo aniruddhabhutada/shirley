@@ -96,6 +96,23 @@
 
 ---
 
+## 🌐 Deploying to Netlify
+
+This website is pre-configured for zero-config deployment on Netlify using the Next.js Runtime v5 (`@netlify/plugin-nextjs`) and edge caching.
+
+### Step-by-Step Netlify Deployment:
+1. Log in to [Netlify](https://app.netlify.com) and select **"Add new site"** → **"Import an existing project"**.
+2. Connect your GitHub account and select repository: **`aniruddhabhutada/shirley`**.
+3. Netlify reads [`netlify.toml`](./netlify.toml) automatically:
+   - **Build command:** `npm run build`
+   - **Publish directory:** `.next`
+   - **Plugin:** `@netlify/plugin-nextjs`
+   - **Node.js Version:** `20`
+4. Click **"Deploy shirley"**.
+5. Your production site will be live on your custom `.netlify.app` domain (or custom domain).
+
+---
+
 ## 🧪 Testing
 
 A comprehensive automated test suite validates the registration flow, duplicate handling, input validation, referral tracking, and page status codes:

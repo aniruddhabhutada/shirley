@@ -15,7 +15,7 @@ export default function Footer() {
           <div className="md:col-span-5 space-y-5">
             <Link href="/" className="inline-block relative h-10 w-36">
               <Image
-                src="/images/shirley-logo-light.png"
+                src="/images/shirley-logo-light.webp"
                 alt="SHIRLEY Wellness"
                 fill
                 className="object-contain object-left"
