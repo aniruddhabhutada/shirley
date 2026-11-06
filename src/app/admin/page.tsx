@@ -52,7 +52,7 @@ export default function AdminPage() {
     try {
       const res = await fetch(`/api/admin/export?key=${encodeURIComponent(passcode)}&format=json`);
       if (res.status === 401) {
-        setError('Incorrect admin passcode. Try "shirley2026" or your custom secret.');
+        setError('Incorrect admin passcode. Please verify your credentials.');
         setLoading(false);
         return;
       }
@@ -136,7 +136,7 @@ export default function AdminPage() {
                 <div>
                   <input
                     type="password"
-                    placeholder="Enter passcode (default: shirley2026)"
+                    placeholder="Enter admin passcode"
                     value={passcode}
                     onChange={(e) => setPasscode(e.target.value)}
                     className="w-full text-center px-4 py-3 rounded-xl border border-shirley-blush-border focus:outline-none focus:ring-2 focus:ring-shirley-berry-vibrant text-sm"
@@ -159,7 +159,7 @@ export default function AdminPage() {
               </form>
 
               <p className="text-[11px] text-shirley-plum-dark/50">
-                Default key: <code className="bg-shirley-cream px-1.5 py-0.5 rounded font-mono">shirley2026</code> · Change anytime via <code className="bg-shirley-cream px-1.5 py-0.5 rounded font-mono">ADMIN_SECRET</code> in Netlify.
+                Protected admin portal · Change anytime via <code className="bg-shirley-cream px-1.5 py-0.5 rounded font-mono">ADMIN_SECRET</code> in Netlify.
               </p>
             </div>
           </div>

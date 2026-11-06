@@ -11,7 +11,7 @@ import {
   Sparkles,
   HelpCircle,
   Loader2,
-  X
+  X,
 } from 'lucide-react';
 import InstagramIcon from './icons/InstagramIcon';
 
@@ -235,7 +235,7 @@ export default function ShareActions({
               shareData.files = [file];
             }
           }
-        } catch {}
+        } catch { }
 
         await navigator.share(shareData);
         setShareSuccess(true);

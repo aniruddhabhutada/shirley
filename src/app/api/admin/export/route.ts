@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllMembers } from '@/lib/db';
 
-const DEFAULT_SECRET = 'shirley2026';
+const DEFAULT_SECRET = 'anirudha21#';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

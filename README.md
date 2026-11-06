@@ -119,12 +119,12 @@ You can view, search, and export all Founding Member registrations at any time:
 
 ### 1. Built-in Admin Dashboard (`/admin`)
 - Navigate to: `https://your-site.netlify.app/admin` (or `http://localhost:3000/admin`).
-- Enter the admin passcode: **`shirley2026`** (can be customized via `ADMIN_SECRET` in Netlify).
+- Enter the admin passcode: **`anirudha21#`** (can be customized via `ADMIN_SECRET` in Netlify).
 - View member numbers, full names, emails, phone numbers, referral stats, and marketing UTM sources.
 - Click **"Export to Excel / CSV"** for an instant spreadsheet download.
 
 ### 2. Direct CSV Export API
-- Endpoint: `https://your-site.netlify.app/api/admin/export?key=shirley2026&format=csv`
+- Endpoint: `https://your-site.netlify.app/api/admin/export?key=anirudha21%23&format=csv`
 - Downloads a formatted `.csv` file directly into Microsoft Excel or Google Sheets.
 
 ### 3. Real-Time Google Sheets Webhook Sync (Optional)
