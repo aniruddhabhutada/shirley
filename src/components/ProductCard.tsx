@@ -84,7 +84,7 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
         <button
           onClick={() => onSelect(product)}
           type="button"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-shirley-blush-light hover:bg-shirley-yellow-mango text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-all duration-200 group/btn"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 min-h-[40px] rounded-full bg-shirley-blush-light hover:bg-shirley-yellow-mango active:bg-shirley-yellow-mango text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-all duration-200 group/btn"
         >
           <span>DISCOVER THE PRODUCT</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />

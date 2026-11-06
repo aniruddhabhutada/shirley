@@ -33,11 +33,11 @@ export default function Footer() {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href="mailto:helloshirleywellness@gmail.com"
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs sm:text-sm text-shirley-cream transition-colors group border border-white/10"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs text-shirley-cream transition-colors group border border-white/10 max-w-full"
                 aria-label="Email Shirley Wellness at helloshirleywellness@gmail.com"
               >
-                <Mail className="w-3.5 h-3.5 text-shirley-yellow-mango" />
-                <span className="font-medium">helloshirleywellness@gmail.com</span>
+                <Mail className="w-3.5 h-3.5 text-shirley-yellow-mango flex-shrink-0" />
+                <span className="font-medium truncate">helloshirleywellness@gmail.com</span>
               </a>
 
               <a

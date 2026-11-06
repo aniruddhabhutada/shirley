@@ -87,10 +87,10 @@ export default function Header() {
           </div>
 
           {/* Mobile menu toggle */}
-          <div className="flex sm:hidden items-center gap-3">
+          <div className="flex sm:hidden items-center gap-2">
             <Link
               href="/#founding-list"
-              className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-shirley-yellow-mango text-shirley-plum-rich text-[11px] font-bold tracking-wider uppercase shadow-sm"
+              className="inline-flex items-center justify-center px-3 py-2 min-h-[36px] rounded-full bg-shirley-yellow-mango text-shirley-plum-rich text-[11px] font-bold tracking-wider uppercase shadow-sm active:scale-95 transition-transform"
             >
               JOIN LIST
             </Link>
@@ -98,7 +98,7 @@ export default function Header() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               type="button"
-              className="p-2 rounded-xl text-shirley-plum-rich hover:bg-shirley-blush/50 transition-colors"
+              className="p-2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-xl text-shirley-plum-rich hover:bg-shirley-blush/50 transition-colors"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
