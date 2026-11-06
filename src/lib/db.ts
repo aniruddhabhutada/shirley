@@ -124,6 +124,11 @@ export async function findMemberByReferralCode(code: string): Promise<FoundingMe
   return found || null;
 }
 
+export async function getAllMembers(): Promise<FoundingMember[]> {
+  const { members } = readData();
+  return [...members].reverse(); // newest first
+}
+
 export async function createRegistration(
   input: RegisterInput,
   origin: string

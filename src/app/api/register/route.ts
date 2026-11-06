@@ -95,6 +95,34 @@ export async function POST(req: NextRequest) {
     const { member, isExisting } = await createRegistration(input, origin);
     const memberData = formatMemberResponse(member, origin);
 
+    // Optional webhook forwarding (Google Sheets, Zapier, Make, Slack)
+    if (!isExisting) {
+      const webhookUrl = process.env.LEAD_WEBHOOK_URL || process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+      if (webhookUrl) {
+        try {
+          fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'new_founding_member',
+              memberNumber: member.memberNumber,
+              fullName: member.fullName,
+              email: member.email,
+              phone: member.phone || '',
+              referralCode: member.referralCode,
+              referredBy: member.referredBy || '',
+              createdAt: member.createdAt,
+              utmSource: member.utm?.source || '',
+              utmMedium: member.utm?.medium || '',
+              utmCampaign: member.utm?.campaign || '',
+            }),
+          }).catch((err) => console.error('[Webhook] sync failed:', err));
+        } catch (webhookErr) {
+          console.error('[Webhook] dispatch error:', webhookErr);
+        }
+      }
+    }
+
     return NextResponse.json<RegistrationResult>(
       {
         success: true,

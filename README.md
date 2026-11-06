@@ -113,6 +113,29 @@ This website is pre-configured for zero-config deployment on Netlify using the N
 
 ---
 
+## 📊 Viewing & Exporting User Registrations (Admin Portal)
+
+You can view, search, and export all Founding Member registrations at any time:
+
+### 1. Built-in Admin Dashboard (`/admin`)
+- Navigate to: `https://your-site.netlify.app/admin` (or `http://localhost:3000/admin`).
+- Enter the admin passcode: **`shirley2026`** (can be customized via `ADMIN_SECRET` in Netlify).
+- View member numbers, full names, emails, phone numbers, referral stats, and marketing UTM sources.
+- Click **"Export to Excel / CSV"** for an instant spreadsheet download.
+
+### 2. Direct CSV Export API
+- Endpoint: `https://your-site.netlify.app/api/admin/export?key=shirley2026&format=csv`
+- Downloads a formatted `.csv` file directly into Microsoft Excel or Google Sheets.
+
+### 3. Real-Time Google Sheets Webhook Sync (Optional)
+To receive every user lead into Google Sheets automatically as soon as they register:
+1. Create a free webhook with **Google Apps Script**, **Make.com**, or **Zapier** connected to your Google Sheet.
+2. In Netlify Site Settings, go to **Environment variables**.
+3. Add: `LEAD_WEBHOOK_URL` = `https://your-webhook-endpoint`
+4. Every new registration will instantly post a row to your Google Sheet!
+
+---
+
 ## 🧪 Testing
 
 A comprehensive automated test suite validates the registration flow, duplicate handling, input validation, referral tracking, and page status codes:
