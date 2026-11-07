@@ -143,56 +143,6 @@ export const PRODUCTS: Product[] = [
       'SHIRLEY PCOS SUPPORT is an investigational nutritional supplement concept in active R&D. It does not cure, reverse, or treat Polycystic Ovary Syndrome (PCOS/PCOD) and is not a drug or prescription medication.',
   },
   {
-    id: 'uti-support',
-    name: 'SHIRLEY UTI SUPPORT',
-    badgeName: 'Urinary Tract Comfort',
-    category: 'URINARY TRACT HEALTH RITUAL',
-    headline: 'Proactive daily protection and comfort for the urinary microbiome.',
-    shortDescription:
-      'A targeted nutraceutical drink concept blending D-Mannose, PAC-standardized cranberry extract, hibiscus, and urogenital probiotics.',
-    fullDescription:
-      'Frequent urinary discomfort disrupts daily life and mental peace. SHIRLEY UTI Support combines concentrated D-Mannose with cranberry and hibiscus polyphenols to help maintain bladder comfort and support natural defense barriers.',
-    format: 'Individual Powder Sachets',
-    sachetCount: '15 Sachets Per Box',
-    netWeight: '5 g per sachet (75 g box)',
-    flavour: 'Tart Cranberry',
-    status: 'IN DEVELOPMENT',
-    image: '/images/product-uti.webp',
-    imageAlt: 'SHIRLEY UTI Support box with cranberry extract drink',
-    videoUrl: '/videos/shirley-uti-support.mp4',
-    videoPoster: '/videos/shirley-uti-support-poster.webp',
-    accentColor: '#452039',
-    tagColor: 'text-shirley-plum-dark bg-shirley-blush',
-    bgPastel: 'bg-shirley-blush-light',
-    proposedIngredients: [
-      {
-        name: 'D-Mannose',
-        role: 'Anti-Adherence Action',
-        description:
-          'A naturally occurring monosaccharide that binds to bacterial fimbriae so they are gently washed away.',
-      },
-      {
-        name: 'Cranberry Extract (PACs)',
-        role: 'Polyphenol Defense',
-        description:
-          'Standardized Proanthocyanidins to support bladder mucosal integrity and antioxidant protection.',
-      },
-      {
-        name: 'Hibiscus Extract',
-        role: 'Natural Antimicrobial Botanicals',
-        description:
-          'Traditional botanical rich in anthocyanins that supports healthy urinary tract clearance.',
-      },
-    ],
-    keyHighlights: [
-      'Non-antibiotic daily wellness support',
-      'Standardized botanical extracts',
-      'Fast-acting soluble drink format',
-    ],
-    disclaimer:
-      'This product concept is for nutritional maintenance only and does not diagnose or treat acute urinary tract infections (UTIs) or bacterial kidney conditions.',
-  },
-  {
     id: 'anemia-support',
     name: 'SHIRLEY ANEMIA SUPPORT',
     badgeName: 'Liposomal Iron & Energy',
@@ -241,5 +191,55 @@ export const PRODUCTS: Product[] = [
     ],
     disclaimer:
       'Anemia Support is an investigational dietary supplement and does not replace medical supervision or prescription therapies for severe clinical anemia.',
+  },
+  {
+    id: 'uti-support',
+    name: 'SHIRLEY UTI SUPPORT',
+    badgeName: 'Urinary Tract Comfort',
+    category: 'URINARY TRACT HEALTH RITUAL',
+    headline: 'Proactive daily protection and comfort for the urinary microbiome.',
+    shortDescription:
+      'A targeted nutraceutical drink concept blending D-Mannose, PAC-standardized cranberry extract, hibiscus, and urogenital probiotics.',
+    fullDescription:
+      'Frequent urinary discomfort disrupts daily life and mental peace. SHIRLEY UTI Support combines concentrated D-Mannose with cranberry and hibiscus polyphenols to help maintain bladder comfort and support natural defense barriers.',
+    format: 'Individual Powder Sachets',
+    sachetCount: '15 Sachets Per Box',
+    netWeight: '5 g per sachet (75 g box)',
+    flavour: 'Cranberry',
+    status: 'IN DEVELOPMENT',
+    image: '/images/product-uti.webp',
+    imageAlt: 'SHIRLEY UTI Support box with cranberry extract drink',
+    videoUrl: '/videos/shirley-uti-support.mp4',
+    videoPoster: '/videos/shirley-uti-support-poster.webp',
+    accentColor: '#452039',
+    tagColor: 'text-shirley-plum-dark bg-shirley-blush',
+    bgPastel: 'bg-shirley-blush-light',
+    proposedIngredients: [
+      {
+        name: 'D-Mannose',
+        role: 'Anti-Adherence Action',
+        description:
+          'A naturally occurring monosaccharide that binds to bacterial fimbriae so they are gently washed away.',
+      },
+      {
+        name: 'Cranberry Extract (PACs)',
+        role: 'Polyphenol Defense',
+        description:
+          'Standardized Proanthocyanidins to support bladder mucosal integrity and antioxidant protection.',
+      },
+      {
+        name: 'Hibiscus Extract',
+        role: 'Natural Antimicrobial Botanicals',
+        description:
+          'Traditional botanical rich in anthocyanins that supports healthy urinary tract clearance.',
+      },
+    ],
+    keyHighlights: [
+      'Non-antibiotic daily wellness support',
+      'Standardized botanical extracts',
+      'Fast-acting soluble drink format',
+    ],
+    disclaimer:
+      'This product concept is for nutritional maintenance only and does not diagnose or treat acute urinary tract infections (UTIs) or bacterial kidney conditions.',
   },
 ];

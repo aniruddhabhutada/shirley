@@ -8,9 +8,14 @@ import { ArrowLeft, Sparkles, CheckCircle2, ShieldAlert, ArrowRight, Package, Dr
 import type { Metadata } from 'next';
 
 export async function generateStaticParams() {
-  return PRODUCTS.map((product) => ({
+  const base = PRODUCTS.map((product) => ({
     slug: product.id,
   }));
+  return [
+    ...base,
+    { slug: 'period-support' },
+    { slug: 'pcos-support' },
+  ];
 }
 
 export async function generateMetadata({
@@ -18,7 +23,10 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const product = PRODUCTS.find((p) => p.id === params.slug);
+  const product =
+    PRODUCTS.find((p) => p.id === params.slug) ||
+    (params.slug === 'period-support' ? PRODUCTS.find((p) => p.id === 'cycora') : undefined) ||
+    (params.slug === 'pcos-support' ? PRODUCTS.find((p) => p.id === 'inosia') : undefined);
   if (!product) return { title: 'Product Not Found | SHIRLEY' };
 
   return {
@@ -37,7 +45,10 @@ export default function ProductDetailPage({
 }: {
   params: { slug: string };
 }) {
-  const product = PRODUCTS.find((p) => p.id === params.slug);
+  const product =
+    PRODUCTS.find((p) => p.id === params.slug) ||
+    (params.slug === 'period-support' ? PRODUCTS.find((p) => p.id === 'cycora') : undefined) ||
+    (params.slug === 'pcos-support' ? PRODUCTS.find((p) => p.id === 'inosia') : undefined);
   if (!product) notFound();
 
   return (

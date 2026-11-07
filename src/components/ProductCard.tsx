@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Product } from '@/data/products';
 import { Sparkles, ArrowRight, Clock, CheckCircle } from 'lucide-react';
 
@@ -14,8 +15,12 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
   return (
     <div className="card-luxury rounded-3xl overflow-hidden flex flex-col justify-between group bg-white border border-shirley-blush-border/40">
       <div>
-        {/* Product Visual Area */}
-        <div className={`relative aspect-[4/5] ${product.bgPastel} overflow-hidden p-6 flex items-center justify-center`}>
+        {/* Product Visual Area - Clickable for fast detail modal */}
+        <div
+          onClick={() => onSelect(product)}
+          className={`relative aspect-[4/5] ${product.bgPastel} overflow-hidden p-6 flex items-center justify-center cursor-pointer`}
+          title={`Click to preview ${product.name}`}
+        >
           {/* Status Badge */}
           <div className="absolute top-4 left-4 z-10 glass-pill px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm border border-white/80">
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
@@ -52,9 +57,11 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
             </span>
           </div>
 
-          <h3 className="text-2xl font-serif text-shirley-plum-rich group-hover:text-shirley-berry-vibrant transition-colors">
-            {product.name}
-          </h3>
+          <Link href={`/products/${product.id}`} className="block">
+            <h3 className="text-2xl font-serif text-shirley-plum-rich group-hover:text-shirley-berry-vibrant transition-colors">
+              {product.name}
+            </h3>
+          </Link>
 
           <p className="text-sm text-shirley-plum-dark/75 leading-relaxed">
             {product.shortDescription}
@@ -81,14 +88,13 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
           <span>Pre-Launch</span>
         </div>
 
-        <button
-          onClick={() => onSelect(product)}
-          type="button"
+        <Link
+          href={`/products/${product.id}`}
           className="inline-flex items-center gap-1.5 px-4 py-2.5 min-h-[40px] rounded-full bg-shirley-blush-light hover:bg-shirley-yellow-mango active:bg-shirley-yellow-mango text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-all duration-200 group/btn"
         >
           <span>DISCOVER THE PRODUCT</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-        </button>
+        </Link>
       </div>
     </div>
   );

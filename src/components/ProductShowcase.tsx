@@ -10,8 +10,6 @@ import { Sparkles, ArrowRight, Info, ShieldCheck } from 'lucide-react';
 export default function ProductShowcase() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const flagshipProducts = PRODUCTS.slice(0, 2); // SHIRLEY PERIOD SUPPORT & SHIRLEY PCOS SUPPORT
-
   return (
     <section id="products" className="py-16 lg:py-24 bg-shirley-cream border-b border-shirley-blush-border/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,9 +34,9 @@ export default function ProductShowcase() {
           </div>
         </div>
 
-        {/* Flagship Product Grid (SHIRLEY PERIOD SUPPORT & SHIRLEY PCOS SUPPORT) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-20">
-          {flagshipProducts.map((product) => (
+        {/* All Four SHIRLEY Products Grid (2x2 on Desktop/Tablet, 1-col on Mobile) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 mb-16">
+          {PRODUCTS.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
