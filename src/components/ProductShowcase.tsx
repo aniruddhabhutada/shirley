@@ -11,7 +11,6 @@ export default function ProductShowcase() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const flagshipProducts = PRODUCTS.slice(0, 2); // SHIRLEY PERIOD SUPPORT & SHIRLEY PCOS SUPPORT
-  const pipelineProducts = PRODUCTS.slice(2, 4); // UTI & Anemia Support
 
   return (
     <section id="products" className="py-16 lg:py-24 bg-shirley-cream border-b border-shirley-blush-border/30">
@@ -46,33 +45,6 @@ export default function ProductShowcase() {
               onSelect={(p) => setSelectedProduct(p)}
             />
           ))}
-        </div>
-
-        {/* Future Pipeline Preview */}
-        <div className="pt-12 border-t border-shirley-blush-border/50">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
-            <div>
-              <span className="text-xs font-bold tracking-widest text-shirley-plum-light uppercase">
-                RESEARCH PIPELINE
-              </span>
-              <h3 className="text-2xl font-serif text-shirley-plum-rich mt-1">
-                Future Rituals Being Explored
-              </h3>
-            </div>
-            <p className="text-xs sm:text-sm text-shirley-plum-dark/70 max-w-md">
-              Expanding everyday nutritional solutions to address overlooked corners of female wellness.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {pipelineProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onSelect={(p) => setSelectedProduct(p)}
-              />
-            ))}
-          </div>
         </div>
 
         {/* Responsible Notice Banner */}

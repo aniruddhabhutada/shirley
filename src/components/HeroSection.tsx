@@ -133,52 +133,13 @@ export default function HeroSection() {
                     playsInline
                     preload="metadata"
                     poster="/images/shirley-hero-poster.webp"
-                    className="shirley-hero-video w-full h-full object-cover object-center rounded-2xl"
+                    className="shirley-hero-video w-full h-full object-contain rounded-2xl"
                     aria-label="SHIRLEY Cinematic Product Animation"
                   >
                     <source src="/videos/shirley-hero.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
-
-                  {/* Gradient bottom overlay for subtle text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-shirley-plum-rich/40 via-transparent to-transparent pointer-events-none" />
-
-                  {/* Floating badge inside picture */}
-                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4 glass-pill px-3 py-1.5 rounded-full flex items-center gap-2 shadow-sm pointer-events-none">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] sm:text-[11px] font-bold tracking-wider text-shirley-plum-rich uppercase">
-                      Formula 01 · PERIOD SUPPORT
-                    </span>
-                  </div>
-
-                  {/* Bottom glass pill overlay */}
-                  <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 glass-pill p-3 sm:p-3.5 rounded-xl border border-white/60 shadow-lg flex items-center justify-between pointer-events-none">
-                    <div>
-                      <p className="text-[10px] sm:text-[11px] font-semibold tracking-wider text-shirley-berry-vibrant uppercase">
-                        Menstrual Wellness Drink
-                      </p>
-                      <p className="text-xs sm:text-sm font-serif font-medium text-shirley-plum-rich">
-                        Strawberry Lemonade · 15 Daily Sachets
-                      </p>
-                    </div>
-                    <span className="px-2 sm:px-2.5 py-1 rounded-full bg-shirley-plum-rich text-white text-[9px] sm:text-[10px] font-bold tracking-wider uppercase">
-                      IN R&amp;D
-                    </span>
-                  </div>
                 </div>
-              </div>
-
-              {/* Floating decorative chip: Natural Ingredients */}
-              <div className="absolute -bottom-4 -left-3 sm:left-2 bg-white rounded-2xl p-3 sm:p-3.5 shadow-elevated border border-shirley-blush-border/60 max-w-[210px] hidden sm:block animate-float">
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-6 h-6 rounded-full bg-shirley-blush flex items-center justify-center text-shirley-berry-vibrant">
-                    <Sparkles className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xs font-bold text-shirley-plum-rich">Thoughtful Ritual</span>
-                </div>
-                <p className="text-[11px] text-shirley-plum-dark/80 leading-snug">
-                  Magnesium, Vitamin B6 &amp; Probiotics in an easy daily drink.
-                </p>
               </div>
             </div>
           </div>
