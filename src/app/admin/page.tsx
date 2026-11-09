@@ -25,6 +25,7 @@ interface Member {
   firstName: string;
   email: string;
   phone?: string;
+  product_interest?: string | null;
   referralCode: string;
   referredBy?: string;
   referralCount: number;
@@ -79,6 +80,7 @@ export default function AdminPage() {
       m.fullName.toLowerCase().includes(q) ||
       m.email.toLowerCase().includes(q) ||
       (m.phone && m.phone.toLowerCase().includes(q)) ||
+      (m.product_interest && m.product_interest.toLowerCase().includes(q)) ||
       m.referralCode.toLowerCase().includes(q)
     );
   });
@@ -257,6 +259,7 @@ export default function AdminPage() {
                       <th className="py-3 px-4">Full Name</th>
                       <th className="py-3 px-4">Email</th>
                       <th className="py-3 px-4">Phone</th>
+                      <th className="py-3 px-4">Product Interest</th>
                       <th className="py-3 px-4">Referral Code</th>
                       <th className="py-3 px-4 text-center">Referrals</th>
                       <th className="py-3 px-4">Date Registered</th>
@@ -294,6 +297,31 @@ export default function AdminPage() {
                             <span className="text-shirley-plum-dark/30">—</span>
                           )}
                         </td>
+                        <td className="py-3 px-4 text-xs">
+                          {m.product_interest === 'PCOS Support' && (
+                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-shirley-lavender-light text-shirley-plum-rich border border-shirley-lavender/60">
+                              PCOS Support
+                            </span>
+                          )}
+                          {m.product_interest === 'Period Support' && (
+                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-shirley-blush-light text-shirley-berry-vibrant border border-shirley-blush-border">
+                              Period Support
+                            </span>
+                          )}
+                          {m.product_interest === 'UTI Support' && (
+                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-800 border border-rose-200">
+                              UTI Support
+                            </span>
+                          )}
+                          {m.product_interest === 'Anemia Support' && (
+                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-shirley-peach-light text-amber-900 border border-shirley-peach-warm/60">
+                              Anemia Support
+                            </span>
+                          )}
+                          {!m.product_interest && (
+                            <span className="text-shirley-plum-dark/30 italic text-[11px]">Not selected</span>
+                          )}
+                        </td>
                         <td className="py-3 px-4 font-mono text-xs font-semibold text-shirley-plum-rich">
                           {m.referralCode}
                         </td>
@@ -326,7 +354,7 @@ export default function AdminPage() {
                     ))}
                     {filteredMembers.length === 0 && (
                       <tr>
-                        <td colSpan={8} className="py-10 text-center text-xs text-shirley-plum-dark/50">
+                        <td colSpan={9} className="py-10 text-center text-xs text-shirley-plum-dark/50">
                           No matching member registrations found.
                         </td>
                       </tr>

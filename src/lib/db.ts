@@ -139,6 +139,11 @@ export async function createRegistration(
   // Check if member already exists
   const existing = data.members.find((m) => m.email.toLowerCase() === normalizedEmail);
   if (existing) {
+    // If a product interest was selected, update it without overwriting other details
+    if (input.product_interest && input.product_interest !== existing.product_interest) {
+      existing.product_interest = input.product_interest;
+      writeData(data);
+    }
     return { member: existing, isExisting: true };
   }
 
@@ -175,6 +180,7 @@ export async function createRegistration(
     firstName,
     email: normalizedEmail,
     phone: input.phone ? input.phone.trim() : undefined,
+    product_interest: input.product_interest ? input.product_interest.trim() : null,
     consent: true,
     consentTimestamp: now,
     createdAt: now,
@@ -203,6 +209,7 @@ export function formatMemberResponse(member: FoundingMember, origin: string) {
     firstName: member.firstName,
     maskedEmail: maskEmail(member.email),
     maskedPhone: maskPhone(member.phone),
+    product_interest: member.product_interest || null,
     referralCode: member.referralCode,
     referralUrl: `${baseUrl}?ref=${member.referralCode}`,
     referralCount: member.referralCount || 0,
