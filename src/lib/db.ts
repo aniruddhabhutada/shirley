@@ -139,9 +139,16 @@ export async function createRegistration(
   // Check if member already exists
   const existing = data.members.find((m) => m.email.toLowerCase() === normalizedEmail);
   if (existing) {
-    // If a product interest was selected, update it without overwriting other details
-    if (input.product_interest && input.product_interest !== existing.product_interest) {
-      existing.product_interest = input.product_interest;
+    const incomingInterests =
+      input.product_interests && input.product_interests.length > 0
+        ? input.product_interests
+        : input.product_interest
+        ? [input.product_interest]
+        : [];
+
+    if (incomingInterests.length > 0) {
+      existing.product_interests = incomingInterests;
+      existing.product_interest = incomingInterests[0];
       writeData(data);
     }
     return { member: existing, isExisting: true };
@@ -173,6 +180,13 @@ export async function createRegistration(
 
   const now = new Date().toISOString();
 
+  const selectedInterests =
+    input.product_interests && input.product_interests.length > 0
+      ? input.product_interests
+      : input.product_interest
+      ? [input.product_interest]
+      : [];
+
   const newMember: FoundingMember = {
     id,
     memberNumber,
@@ -180,7 +194,8 @@ export async function createRegistration(
     firstName,
     email: normalizedEmail,
     phone: input.phone ? input.phone.trim() : undefined,
-    product_interest: input.product_interest ? input.product_interest.trim() : null,
+    product_interests: selectedInterests,
+    product_interest: selectedInterests.length > 0 ? selectedInterests[0] : null,
     consent: true,
     consentTimestamp: now,
     createdAt: now,
@@ -202,6 +217,12 @@ export async function createRegistration(
 
 export function formatMemberResponse(member: FoundingMember, origin: string) {
   const baseUrl = origin.replace(/\/$/, '');
+  const interests =
+    member.product_interests && member.product_interests.length > 0
+      ? member.product_interests
+      : member.product_interest
+      ? [member.product_interest]
+      : [];
   return {
     id: member.id,
     memberNumber: member.memberNumber,
@@ -209,7 +230,8 @@ export function formatMemberResponse(member: FoundingMember, origin: string) {
     firstName: member.firstName,
     maskedEmail: maskEmail(member.email),
     maskedPhone: maskPhone(member.phone),
-    product_interest: member.product_interest || null,
+    product_interests: interests,
+    product_interest: interests.length > 0 ? interests[0] : null,
     referralCode: member.referralCode,
     referralUrl: `${baseUrl}?ref=${member.referralCode}`,
     referralCount: member.referralCount || 0,

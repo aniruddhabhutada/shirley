@@ -47,7 +47,11 @@ export async function GET(req: NextRequest) {
         escape(m.fullName),
         escape(m.email),
         escape(m.phone || ''),
-        escape(m.product_interest || 'None'),
+        escape(
+          m.product_interests && m.product_interests.length > 0
+            ? m.product_interests.join('; ')
+            : m.product_interest || 'None'
+        ),
         escape(m.referralCode),
         escape(m.referredBy || ''),
         escape(m.referralCount || 0),

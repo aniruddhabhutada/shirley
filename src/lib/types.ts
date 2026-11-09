@@ -5,6 +5,7 @@ export interface FoundingMember {
   firstName: string;
   email: string;
   phone?: string;
+  product_interests?: string[];
   product_interest?: string | null;
   consent: boolean;
   consentTimestamp: string;
@@ -25,6 +26,7 @@ export interface RegisterInput {
   fullName: string;
   email: string;
   phone?: string;
+  product_interests?: string[];
   product_interest?: string | null;
   consent: boolean;
   referredBy?: string;
@@ -44,6 +46,7 @@ export interface RegistrationResult {
     firstName: string;
     maskedEmail: string;
     maskedPhone?: string;
+    product_interests?: string[];
     product_interest?: string | null;
     referralCode: string;
     referralUrl: string;

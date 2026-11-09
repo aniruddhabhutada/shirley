@@ -36,7 +36,18 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { fullName, email, phone, product_interest, consent, referredBy, utmSource, utmMedium, utmCampaign } = body;
+    const {
+      fullName,
+      email,
+      phone,
+      product_interests,
+      product_interest,
+      consent,
+      referredBy,
+      utmSource,
+      utmMedium,
+      utmCampaign,
+    } = body;
 
     const errors: Record<string, string> = {};
 
@@ -63,14 +74,35 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Validate product_interest (optional, allowed values: PCOS Support, Period Support, UTI Support, Anemia Support, null)
+    // Validate product_interests (REQUIRED: at least one product selection required)
     const ALLOWED_PRODUCTS = ['PCOS Support', 'Period Support', 'UTI Support', 'Anemia Support'];
-    let validatedProductInterest: string | null = null;
-    if (product_interest !== undefined && product_interest !== null && product_interest !== '') {
-      if (typeof product_interest === 'string' && ALLOWED_PRODUCTS.includes(product_interest.trim())) {
-        validatedProductInterest = product_interest.trim();
+    let validatedProductInterests: string[] = [];
+
+    const rawInterests =
+      product_interests !== undefined
+        ? Array.isArray(product_interests)
+          ? product_interests
+          : [product_interests]
+        : product_interest
+        ? Array.isArray(product_interest)
+          ? product_interest
+          : [product_interest]
+        : [];
+
+    const cleanedInterests = rawInterests
+      .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+      .map((item) => item.trim());
+
+    const uniqueInterests = Array.from(new Set(cleanedInterests));
+
+    if (uniqueInterests.length === 0) {
+      errors.product_interests = 'Please select at least one SHIRLEY product to continue.';
+    } else {
+      const invalidItems = uniqueInterests.filter((item) => !ALLOWED_PRODUCTS.includes(item));
+      if (invalidItems.length > 0) {
+        errors.product_interests = 'Please select valid SHIRLEY products.';
       } else {
-        errors.product_interest = 'Please select a valid SHIRLEY product option.';
+        validatedProductInterests = uniqueInterests;
       }
     }
 
@@ -99,7 +131,8 @@ export async function POST(req: NextRequest) {
       fullName: fullName.trim(),
       email: email.trim().toLowerCase(),
       phone: phone ? phone.trim() : undefined,
-      product_interest: validatedProductInterest,
+      product_interests: validatedProductInterests,
+      product_interest: validatedProductInterests[0] || null,
       consent: true,
       referredBy: typeof referredBy === 'string' ? referredBy.trim() : undefined,
       utmSource: typeof utmSource === 'string' ? utmSource : undefined,
@@ -124,7 +157,10 @@ export async function POST(req: NextRequest) {
               fullName: member.fullName,
               email: member.email,
               phone: member.phone || '',
-              productInterest: member.product_interest || '',
+              productInterests: (member.product_interests || []).join(', '),
+              productInterest: (member.product_interests && member.product_interests.length > 0)
+                ? member.product_interests.join(', ')
+                : (member.product_interest || ''),
               referralCode: member.referralCode,
               referredBy: member.referredBy || '',
               createdAt: member.createdAt,

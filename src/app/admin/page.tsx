@@ -25,6 +25,7 @@ interface Member {
   firstName: string;
   email: string;
   phone?: string;
+  product_interests?: string[];
   product_interest?: string | null;
   referralCode: string;
   referredBy?: string;
@@ -76,11 +77,12 @@ export default function AdminPage() {
 
   const filteredMembers = members.filter((m) => {
     const q = search.toLowerCase();
+    const interests = m.product_interests || (m.product_interest ? [m.product_interest] : []);
     return (
       m.fullName.toLowerCase().includes(q) ||
       m.email.toLowerCase().includes(q) ||
       (m.phone && m.phone.toLowerCase().includes(q)) ||
-      (m.product_interest && m.product_interest.toLowerCase().includes(q)) ||
+      interests.some((p) => p.toLowerCase().includes(q)) ||
       m.referralCode.toLowerCase().includes(q)
     );
   });
@@ -298,29 +300,39 @@ export default function AdminPage() {
                           )}
                         </td>
                         <td className="py-3 px-4 text-xs">
-                          {m.product_interest === 'PCOS Support' && (
-                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-shirley-lavender-light text-shirley-plum-rich border border-shirley-lavender/60">
-                              PCOS Support
-                            </span>
-                          )}
-                          {m.product_interest === 'Period Support' && (
-                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-shirley-blush-light text-shirley-berry-vibrant border border-shirley-blush-border">
-                              Period Support
-                            </span>
-                          )}
-                          {m.product_interest === 'UTI Support' && (
-                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-800 border border-rose-200">
-                              UTI Support
-                            </span>
-                          )}
-                          {m.product_interest === 'Anemia Support' && (
-                            <span className="inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold bg-shirley-peach-light text-amber-900 border border-shirley-peach-warm/60">
-                              Anemia Support
-                            </span>
-                          )}
-                          {!m.product_interest && (
-                            <span className="text-shirley-plum-dark/30 italic text-[11px]">Not selected</span>
-                          )}
+                          {(() => {
+                            const list =
+                              m.product_interests && m.product_interests.length > 0
+                                ? m.product_interests
+                                : m.product_interest
+                                ? [m.product_interest]
+                                : [];
+
+                            if (list.length === 0) {
+                              return <span className="text-shirley-plum-dark/30 italic text-[11px]">Not selected</span>;
+                            }
+
+                            return (
+                              <div className="flex flex-wrap gap-1 max-w-[220px]">
+                                {list.map((prod) => (
+                                  <span
+                                    key={prod}
+                                    className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
+                                      prod === 'PCOS Support'
+                                        ? 'bg-shirley-lavender-light text-shirley-plum-rich border-shirley-lavender/60'
+                                        : prod === 'Period Support'
+                                        ? 'bg-shirley-blush-light text-shirley-berry-vibrant border-shirley-blush-border'
+                                        : prod === 'UTI Support'
+                                        ? 'bg-rose-50 text-rose-800 border-rose-200'
+                                        : 'bg-shirley-peach-light text-amber-900 border-shirley-peach-warm/60'
+                                    }`}
+                                  >
+                                    {prod}
+                                  </span>
+                                ))}
+                              </div>
+                            );
+                          })()}
                         </td>
                         <td className="py-3 px-4 font-mono text-xs font-semibold text-shirley-plum-rich">
                           {m.referralCode}

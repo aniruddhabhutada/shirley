@@ -29,6 +29,7 @@ data1 = {
     'fullName': 'Ananya Sharma',
     'email': 'ananya.test@gmail.com',
     'phone': '+91 98765 43210',
+    'product_interests': ['Period Support', 'PCOS Support'],
     'consent': True,
     'utmSource': 'instagram',
     'utmMedium': 'story'
@@ -55,6 +56,7 @@ assert status == 400
 assert 'fullName' in res_err['errors']
 assert 'email' in res_err['errors']
 assert 'consent' in res_err['errors']
+assert 'product_interests' in res_err['errors']
 
 print('\n--- TEST 4: Register Member 2 via Member 1 Referral ---')
 import time
@@ -63,6 +65,7 @@ data2 = {
     'fullName': 'Pooja Verma',
     'email': f'pooja.verma.{unique_suffix}@example.com',
     'phone': '+91 91234 56789',
+    'product_interests': ['UTI Support', 'Anemia Support'],
     'consent': True,
     'referredBy': member1['referralCode']
 }

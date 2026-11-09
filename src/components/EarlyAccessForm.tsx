@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import confetti from 'canvas-confetti';
-import { Sparkles, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, Loader2, Check } from 'lucide-react';
 import { RegistrationResult } from '@/lib/types';
 
 function EarlyAccessFormInner() {
@@ -15,7 +15,7 @@ function EarlyAccessFormInner() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
-  const [productInterest, setProductInterest] = useState<string | null>(null);
+  const [productInterests, setProductInterests] = useState<string[]>([]);
   const [consent, setConsent] = useState(false);
 
   const [referrerCode, setReferrerCode] = useState<string | null>(null);
@@ -32,7 +32,7 @@ function EarlyAccessFormInner() {
       description: 'Nutritional wellness support for women with PCOS.',
       accentBorder: 'hover:border-shirley-lavender',
       selectedBg: 'bg-shirley-lavender-light/50 border-shirley-plum-rich ring-1 ring-shirley-plum-rich/20',
-      selectedRadio: 'border-shirley-plum-rich bg-shirley-plum-rich',
+      selectedCheckbox: 'border-shirley-plum-rich bg-shirley-plum-rich',
     },
     {
       id: 'Period Support',
@@ -40,7 +40,7 @@ function EarlyAccessFormInner() {
       description: 'A magnesium-based menstrual wellness drink.',
       accentBorder: 'hover:border-shirley-berry-vibrant',
       selectedBg: 'bg-shirley-blush-light/60 border-shirley-berry-vibrant ring-1 ring-shirley-berry-vibrant/20',
-      selectedRadio: 'border-shirley-berry-vibrant bg-shirley-berry-vibrant',
+      selectedCheckbox: 'border-shirley-berry-vibrant bg-shirley-berry-vibrant',
     },
     {
       id: 'UTI Support',
@@ -48,7 +48,7 @@ function EarlyAccessFormInner() {
       description: 'A nutritional wellness product focused on urinary tract health.',
       accentBorder: 'hover:border-rose-400',
       selectedBg: 'bg-rose-50/60 border-shirley-plum-deep ring-1 ring-shirley-plum-deep/20',
-      selectedRadio: 'border-shirley-plum-deep bg-shirley-plum-deep',
+      selectedCheckbox: 'border-shirley-plum-deep bg-shirley-plum-deep',
     },
     {
       id: 'Anemia Support',
@@ -56,20 +56,36 @@ function EarlyAccessFormInner() {
       description: "Nutritional support focused on iron and women's wellness.",
       accentBorder: 'hover:border-amber-400',
       selectedBg: 'bg-shirley-peach-light/60 border-amber-700 ring-1 ring-amber-700/20',
-      selectedRadio: 'border-amber-700 bg-amber-700',
+      selectedCheckbox: 'border-amber-700 bg-amber-700',
     },
   ];
 
-  const handleSelectProduct = (optionId: string) => {
-    const nextValue = productInterest === optionId ? null : optionId;
-    setProductInterest(nextValue);
+  const handleToggleProduct = (optionId: string) => {
+    let next: string[];
+    if (productInterests.includes(optionId)) {
+      next = productInterests.filter((id) => id !== optionId);
+    } else {
+      next = [...productInterests, optionId];
+    }
+    setProductInterests(next);
+
+    // Immediately remove inline validation error once at least one product is selected
+    if (next.length > 0 && errors.product_interests) {
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated.product_interests;
+        return updated;
+      });
+    }
 
     // Track analytics event without personal details
-    if (nextValue && typeof window !== 'undefined' && (window as any).dataLayer) {
+    if (typeof window !== 'undefined' && (window as any).dataLayer) {
       try {
         (window as any).dataLayer.push({
-          event: 'product_interest_selected',
-          product_interest: nextValue,
+          event: 'product_interest_toggled',
+          product_interests: next,
+          toggled_product: optionId,
+          is_selected: next.includes(optionId),
         });
       } catch {}
     }
@@ -111,6 +127,10 @@ function EarlyAccessFormInner() {
       }
     }
 
+    if (productInterests.length === 0) {
+      errs.product_interests = 'Please select at least one SHIRLEY product to continue.';
+    }
+
     if (!consent) {
       errs.consent = 'Please check this box to receive early-access updates from SHIRLEY.';
     }
@@ -134,7 +154,8 @@ function EarlyAccessFormInner() {
         fullName: fullName.trim(),
         email: email.trim(),
         phone: fullPhone,
-        product_interest: productInterest || null,
+        product_interests: productInterests,
+        product_interest: productInterests[0] || null,
         consent,
         referredBy: referrerCode || undefined,
         utmSource: searchParams?.get('utm_source') || undefined,
@@ -338,44 +359,47 @@ function EarlyAccessFormInner() {
               </p>
             </div>
 
-            {/* Question 4: Product Preference (Optional) */}
+            {/* Question 4: Product Preferences (REQUIRED, Multi-select) */}
             <div className="space-y-3 pt-1">
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
                   <label className="block text-xs font-bold uppercase tracking-wider text-shirley-plum-rich">
-                    Which SHIRLEY product are you most excited to try?
+                    Which SHIRLEY products are you most excited to try?{' '}
+                    <span className="text-shirley-berry-vibrant">*</span>
                   </label>
-                  <span className="text-[11px] font-normal text-shirley-plum-dark/60 lowercase">
-                    (optional)
-                  </span>
+                  {productInterests.length > 0 && (
+                    <span className="text-[11px] font-semibold text-shirley-berry-vibrant">
+                      {productInterests.length} selected
+                    </span>
+                  )}
                 </div>
                 <p className="text-xs text-shirley-plum-dark/75">
-                  Choose your favourite. We&apos;d love to know!
+                  Choose all your favourites. We&apos;d love to know!
                 </p>
               </div>
 
               {/* 2x2 Grid on Desktop / Tablet, 1-col on Mobile */}
               <div
-                role="radiogroup"
-                aria-label="Which SHIRLEY product are you most excited to try?"
+                role="group"
+                aria-label="Which SHIRLEY products are you most excited to try?"
                 className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1"
               >
                 {PRODUCT_PREFERENCES.map((opt) => {
-                  const isSelected = productInterest === opt.id;
+                  const isSelected = productInterests.includes(opt.id);
                   return (
                     <div
                       key={opt.id}
-                      role="radio"
+                      role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={0}
-                      onClick={() => handleSelectProduct(opt.id)}
+                      onClick={() => handleToggleProduct(opt.id)}
                       onKeyDown={(e) => {
                         if (e.key === ' ' || e.key === 'Enter') {
                           e.preventDefault();
-                          handleSelectProduct(opt.id);
+                          handleToggleProduct(opt.id);
                         }
                       }}
-                      className={`relative rounded-2xl p-4 border text-left transition-all duration-200 cursor-pointer select-none ${
+                      className={`group/card relative rounded-2xl p-4 border text-left transition-all duration-200 cursor-pointer select-none ${
                         isSelected
                           ? opt.selectedBg
                           : `bg-white border-shirley-blush-border/70 ${opt.accentBorder} hover:shadow-sm hover:bg-shirley-cream/50`
@@ -391,15 +415,15 @@ function EarlyAccessFormInner() {
                           </p>
                         </div>
 
-                        {/* Attractive Radio Selection Indicator */}
+                        {/* Custom Checkbox Indicator */}
                         <div
-                          className={`w-4 h-4 rounded-full border flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${
+                          className={`w-5 h-5 rounded-md border flex-shrink-0 mt-0.5 flex items-center justify-center transition-all ${
                             isSelected
-                              ? `${opt.selectedRadio} border-transparent`
-                              : 'border-shirley-blush-border bg-white'
+                              ? `${opt.selectedCheckbox} border-transparent shadow-sm`
+                              : 'border-shirley-blush-border/90 bg-white group-hover/card:border-shirley-plum-light/50'
                           }`}
                         >
-                          {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                          {isSelected && <Check className="w-3.5 h-3.5 text-white stroke-[3]" />}
                         </div>
                       </div>
                     </div>
@@ -407,17 +431,12 @@ function EarlyAccessFormInner() {
                 })}
               </div>
 
-              {/* Optional clear button when a choice is active */}
-              {productInterest && (
-                <div className="flex justify-end pt-0.5">
-                  <button
-                    type="button"
-                    onClick={() => setProductInterest(null)}
-                    className="text-[11px] text-shirley-plum-dark/60 hover:text-shirley-berry-vibrant transition-colors underline"
-                  >
-                    Clear selection
-                  </button>
-                </div>
+              {/* Inline Validation Error */}
+              {errors.product_interests && (
+                <p className="text-xs text-rose-600 flex items-center gap-1.5 mt-1">
+                  <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span>{errors.product_interests}</span>
+                </p>
               )}
             </div>
 
