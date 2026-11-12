@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { findMemberByReferralCode } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 export const revalidate = 0;
 
 export async function GET(
@@ -30,6 +31,8 @@ export async function GET(
       {
         headers: {
           'Cache-Control': 'no-store, no-cache, must-revalidate',
+          'CDN-Cache-Control': 'no-store',
+          'Netlify-CDN-Cache-Control': 'no-store',
         },
       }
     );

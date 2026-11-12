@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllMembers } from '@/lib/db';
+import { getAllMembersWithStorage } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 export const revalidate = 0;
 
 const DEFAULT_SECRET = 'anirudha21#';
 
 const NO_STORE_HEADERS = {
   'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+  'CDN-Cache-Control': 'no-store',
+  'Netlify-CDN-Cache-Control': 'no-store',
+  'Surrogate-Control': 'no-store',
   Pragma: 'no-cache',
   Expires: '0',
 };
@@ -24,7 +28,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const members = await getAllMembers();
+  const { members, storage } = await getAllMembersWithStorage();
   const format = searchParams.get('format') || 'json';
 
   if (format === 'csv') {
@@ -78,6 +82,7 @@ export async function GET(req: NextRequest) {
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
         'Content-Disposition': `attachment; filename="shirley-founding-members-${new Date().toISOString().split('T')[0]}.csv"`,
+        'X-Shirley-Storage': storage.backend,
         ...NO_STORE_HEADERS,
       },
     });
@@ -87,9 +92,15 @@ export async function GET(req: NextRequest) {
     {
       success: true,
       total: members.length,
+      storage,
       members,
     },
-    { headers: NO_STORE_HEADERS }
+    {
+      headers: {
+        'X-Shirley-Storage': storage.backend,
+        ...NO_STORE_HEADERS,
+      },
+    }
   );
 }
 

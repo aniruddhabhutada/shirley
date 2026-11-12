@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRegistration, formatMemberResponse } from '@/lib/db';
+import { createRegistrationWithStorage, formatMemberResponse } from '@/lib/db';
 import { RegisterInput, RegistrationResult } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 export const revalidate = 0;
 
 // Simple in-memory rate limiting map
@@ -143,7 +144,7 @@ export async function POST(req: NextRequest) {
       utmCampaign: typeof utmCampaign === 'string' ? utmCampaign : undefined,
     };
 
-    const { member, isExisting } = await createRegistration(input, origin);
+    const { member, isExisting, storage } = await createRegistrationWithStorage(input, origin);
     const memberData = formatMemberResponse(member, origin);
 
     // Optional webhook forwarding (Google Sheets, Zapier, Make, Slack)
@@ -187,7 +188,15 @@ export async function POST(req: NextRequest) {
           : "Welcome to the SHIRLEY Founding List! You're officially in.",
         member: memberData,
       },
-      { status: isExisting ? 200 : 201 }
+      {
+        status: isExisting ? 200 : 201,
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+          'CDN-Cache-Control': 'no-store',
+          'Netlify-CDN-Cache-Control': 'no-store',
+          'X-Shirley-Storage': storage.backend,
+        },
+      }
     );
   } catch (error) {
     console.error('Registration API error:', error);

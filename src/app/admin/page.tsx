@@ -39,6 +39,21 @@ interface Member {
   };
 }
 
+interface StorageInfo {
+  backend: string;
+  isNetlifyRuntime: boolean;
+  hasBlobsContext: boolean;
+  warning?: string;
+}
+
+const STORAGE_LABELS: Record<string, string> = {
+  'netlify-blobs-strong': 'Netlify Blobs (Strong)',
+  'netlify-blobs-eventual': 'Netlify Blobs (Eventual)',
+  'local-file': 'Local File JSON',
+  'tmp-ephemeral': 'Ephemeral /tmp',
+  memory: 'Memory Only',
+};
+
 export default function AdminPage() {
   const [passcode, setPasscode] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -47,6 +62,7 @@ export default function AdminPage() {
   const [refreshing, setRefreshing] = useState(false);
   const [refreshError, setRefreshError] = useState('');
   const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
+  const [storageInfo, setStorageInfo] = useState<StorageInfo | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
   const [search, setSearch] = useState('');
 
@@ -63,6 +79,7 @@ export default function AdminPage() {
     }
     const data = await res.json();
     setMembers(data.members || []);
+    setStorageInfo(data.storage || null);
     setLastSyncedAt(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
     return { unauthorized: false as const };
   };
@@ -216,6 +233,17 @@ export default function AdminPage() {
                       · Updated {lastSyncedAt}
                     </span>
                   )}
+                  {storageInfo && (
+                    <span
+                      className={`ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium ${
+                        storageInfo.backend.startsWith('netlify-blobs') || (!storageInfo.isNetlifyRuntime && storageInfo.backend === 'local-file')
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : 'bg-amber-50 text-amber-800 border border-amber-200'
+                      }`}
+                    >
+                      {STORAGE_LABELS[storageInfo.backend] || storageInfo.backend}
+                    </span>
+                  )}
                 </p>
               </div>
 
@@ -244,6 +272,13 @@ export default function AdminPage() {
             {refreshError && (
               <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-medium">
                 {refreshError}
+              </div>
+            )}
+
+            {storageInfo?.warning && (
+              <div className="p-4 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900 leading-relaxed">
+                <span className="font-bold">Storage Notice: </span>
+                {storageInfo.warning}
               </div>
             )}
 
