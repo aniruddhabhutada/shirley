@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { findMemberById, formatMemberResponse } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -20,10 +23,17 @@ export async function GET(
     const proto = req.headers.get('x-forwarded-proto') || 'http';
     const origin = `${proto}://${host}`;
 
-    return NextResponse.json({
-      success: true,
-      member: formatMemberResponse(member, origin),
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        member: formatMemberResponse(member, origin),
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      }
+    );
   } catch (error) {
     console.error('Member lookup error:', error);
     return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });

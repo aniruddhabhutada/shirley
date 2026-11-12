@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllMembers } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const DEFAULT_SECRET = 'anirudha21#';
+
+const NO_STORE_HEADERS = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+  Pragma: 'no-cache',
+  Expires: '0',
+};
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -69,14 +78,18 @@ export async function GET(req: NextRequest) {
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',
         'Content-Disposition': `attachment; filename="shirley-founding-members-${new Date().toISOString().split('T')[0]}.csv"`,
+        ...NO_STORE_HEADERS,
       },
     });
   }
 
-  return NextResponse.json({
-    success: true,
-    total: members.length,
-    members,
-  });
+  return NextResponse.json(
+    {
+      success: true,
+      total: members.length,
+      members,
+    },
+    { headers: NO_STORE_HEADERS }
+  );
 }
 

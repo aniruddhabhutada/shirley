@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createRegistration, formatMemberResponse } from '@/lib/db';
 import { RegisterInput, RegistrationResult } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Simple in-memory rate limiting map
 const rateLimitMap = new Map<string, { count: number; expiresAt: number }>();
 

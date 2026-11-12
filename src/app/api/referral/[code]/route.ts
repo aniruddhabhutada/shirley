@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { findMemberByReferralCode } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { code: string } }
@@ -17,12 +20,19 @@ export async function GET(
     }
 
     // Only return non-sensitive first name and referral code
-    return NextResponse.json({
-      success: true,
-      valid: true,
-      referrerFirstName: member.firstName,
-      referralCode: member.referralCode,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        valid: true,
+        referrerFirstName: member.firstName,
+        referralCode: member.referralCode,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate',
+        },
+      }
+    );
   } catch (error) {
     console.error('Referral lookup error:', error);
     return NextResponse.json({ success: false, valid: false }, { status: 500 });

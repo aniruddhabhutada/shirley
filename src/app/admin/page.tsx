@@ -15,7 +15,8 @@ import {
   ArrowLeft,
   CheckCircle2,
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  RefreshCw
 } from 'lucide-react';
 
 interface Member {
@@ -43,8 +44,28 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [refreshError, setRefreshError] = useState('');
+  const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
   const [search, setSearch] = useState('');
+
+  const fetchMembers = async (key: string) => {
+    const res = await fetch(
+      `/api/admin/export?key=${encodeURIComponent(key)}&format=json&t=${Date.now()}`,
+      { cache: 'no-store' }
+    );
+    if (res.status === 401) {
+      return { unauthorized: true as const };
+    }
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const data = await res.json();
+    setMembers(data.members || []);
+    setLastSyncedAt(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+    return { unauthorized: false as const };
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,27 +73,39 @@ export default function AdminPage() {
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/admin/export?key=${encodeURIComponent(passcode)}&format=json`);
-      if (res.status === 401) {
+      const result = await fetchMembers(passcode);
+      if (result.unauthorized) {
         setError('Incorrect admin passcode. Please verify your credentials.');
-        setLoading(false);
         return;
       }
-      if (!res.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      const data = await res.json();
-      setMembers(data.members || []);
+      setRefreshError('');
       setIsAuthenticated(true);
-    } catch (err) {
+    } catch {
       setError('Error connecting to admin portal. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleRefresh = async () => {
+    if (!passcode || refreshing) return;
+    setRefreshing(true);
+    setRefreshError('');
+    try {
+      const result = await fetchMembers(passcode);
+      if (result.unauthorized) {
+        setIsAuthenticated(false);
+        setError('Session expired. Please enter your admin passcode again.');
+      }
+    } catch {
+      setRefreshError('Could not refresh member list. Please try again.');
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   const handleDownloadCSV = () => {
-    window.location.href = `/api/admin/export?key=${encodeURIComponent(passcode)}&format=csv`;
+    window.location.href = `/api/admin/export?key=${encodeURIComponent(passcode)}&format=csv&t=${Date.now()}`;
   };
 
   const filteredMembers = members.filter((m) => {
@@ -178,17 +211,41 @@ export default function AdminPage() {
                 </h1>
                 <p className="text-xs sm:text-sm text-shirley-plum-dark/70 mt-0.5">
                   Real-time list of registered women and referral leaders on the early-access list.
+                  {lastSyncedAt && (
+                    <span className="ml-2 text-shirley-plum-dark/50">
+                      · Updated {lastSyncedAt}
+                    </span>
+                  )}
                 </p>
               </div>
 
-              <button
-                onClick={handleDownloadCSV}
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 text-white font-semibold text-xs sm:text-sm shadow-md hover:bg-emerald-700 transition-colors"
-              >
-                <Download className="w-4 h-4" />
-                <span>Export to Excel / CSV</span>
-              </button>
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleRefresh}
+                  disabled={refreshing}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-white border border-shirley-blush-border text-shirley-plum-rich font-semibold text-xs sm:text-sm shadow-sm hover:bg-shirley-blush/40 transition-colors disabled:opacity-60"
+                >
+                  <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                  <span>{refreshing ? 'Refreshing...' : 'Refresh List'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDownloadCSV}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-emerald-600 text-white font-semibold text-xs sm:text-sm shadow-md hover:bg-emerald-700 transition-colors"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Export to Excel / CSV</span>
+                </button>
+              </div>
             </div>
+
+            {refreshError && (
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-medium">
+                {refreshError}
+              </div>
+            )}
 
             {/* KPI Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
