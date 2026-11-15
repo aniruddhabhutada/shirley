@@ -99,7 +99,7 @@ export default function ArticleDetailPage({
             href="/#founding-list"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-colors"
           >
-            <span>JOIN THE FOUNDING LIST</span>
+            <span>PRE-BOOK NOW</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

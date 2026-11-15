@@ -30,7 +30,7 @@ export default function ProductShowcase() {
 
           <div className="inline-flex items-center gap-2 text-xs font-medium text-shirley-plum-dark/60 bg-white/80 px-4 py-2 rounded-full border border-shirley-blush-border/40 shadow-sm">
             <Info className="w-3.5 h-3.5 text-shirley-berry-vibrant flex-shrink-0" />
-            <span>Currently in R&amp;D. Free early-access registration open before commercial release.</span>
+            <span>Currently in R&amp;D. Free pre-booking open before commercial release · No payment required.</span>
           </div>
         </div>
 
@@ -61,7 +61,7 @@ export default function ProductShowcase() {
             href="/#founding-list"
             className="w-full md:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-colors flex-shrink-0 shadow-sm"
           >
-            <span>JOIN FOR FIRST DROP UPDATES</span>
+            <span>PRE-BOOK NOW</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

@@ -65,7 +65,7 @@ export default function HeroSection() {
               <span className="w-1.5 h-1.5 rounded-full bg-shirley-berry-vibrant animate-ping" />
               <span>COMING SOON TO INDIA</span>
               <span className="text-shirley-berry-vibrant">·</span>
-              <span className="text-shirley-plum-light">FREE EARLY ACCESS</span>
+              <span className="text-shirley-plum-light">FREE PRE-BOOKING</span>
             </div>
 
             {/* Main Editorial Headline */}
@@ -89,7 +89,7 @@ export default function HeroSection() {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs sm:text-sm font-bold tracking-wider uppercase shadow-glow-yellow transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 group"
               >
                 <Sparkles className="w-4 h-4 text-shirley-plum-rich flex-shrink-0" />
-                <span>JOIN THE FOUNDING LIST</span>
+                <span>PRE-BOOK NOW</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
@@ -101,11 +101,21 @@ export default function HeroSection() {
               </Link>
             </div>
 
+            {/* Task 2: Free Pre-Booking Clarification */}
+            <div className="pt-2 text-center lg:text-left space-y-1">
+              <p className="text-xs sm:text-sm font-bold tracking-wider uppercase text-shirley-plum-rich">
+                FREE PRE-BOOKING · NO PAYMENT REQUIRED
+              </p>
+              <p className="text-xs text-shirley-plum-dark/75 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+                Register your interest in SHIRLEY&apos;s upcoming products. Choose your favourites and be among the first to receive launch updates.
+              </p>
+            </div>
+
             {/* Trust and Values Row */}
             <div className="pt-4 border-t border-shirley-blush-border/50 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2.5 sm:gap-x-6 text-[11px] sm:text-xs text-shirley-plum-dark/70">
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-shirley-berry-vibrant flex-shrink-0" />
-                <span>100% Free Early Access</span>
+                <span>100% Free Pre-Booking</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-shirley-berry-vibrant flex-shrink-0" />

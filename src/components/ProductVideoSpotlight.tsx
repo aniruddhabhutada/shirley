@@ -76,10 +76,10 @@ export default function ProductVideoSpotlight() {
               {/* CTA Row */}
               <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <Link
-                  href="/#founding-list"
+                  href="/?product=Period+Support#founding-list"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-all shadow-glow-yellow"
                 >
-                  <span>JOIN FOUNDING LIST FOR PERIOD SUPPORT</span>
+                  <span>PRE-BOOK PERIOD SUPPORT</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
@@ -170,10 +170,10 @@ export default function ProductVideoSpotlight() {
               {/* CTA Row */}
               <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <Link
-                  href="/#founding-list"
+                  href="/?product=PCOS+Support#founding-list"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-all shadow-glow-yellow"
                 >
-                  <span>JOIN FOUNDING LIST FOR PCOS SUPPORT</span>
+                  <span>PRE-BOOK PCOS SUPPORT</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 

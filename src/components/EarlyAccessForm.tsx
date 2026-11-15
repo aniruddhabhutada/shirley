@@ -91,8 +91,35 @@ function EarlyAccessFormInner() {
     }
   };
 
-  // Check URL parameters for referral code & UTMs
+  // Check URL parameters for product preselection, referral code & UTMs
   useEffect(() => {
+    // 1. Check for product preselection (e.g., ?product=PCOS+Support or ?product=cycora)
+    const productParam = searchParams?.get('product') || searchParams?.get('prebook');
+    if (productParam) {
+      const lower = productParam.trim().toLowerCase();
+      let matchedId: string | null = null;
+      if (lower === 'pcos support' || lower.includes('pcos') || lower === 'inosia') {
+        matchedId = 'PCOS Support';
+      } else if (lower === 'period support' || lower.includes('period') || lower === 'cycora') {
+        matchedId = 'Period Support';
+      } else if (lower === 'uti support' || lower.includes('uti')) {
+        matchedId = 'UTI Support';
+      } else if (lower === 'anemia support' || lower.includes('anemia')) {
+        matchedId = 'Anemia Support';
+      }
+
+      if (matchedId) {
+        setProductInterests([matchedId]);
+        setErrors((prev) => {
+          if (!prev.product_interests) return prev;
+          const updated = { ...prev };
+          delete updated.product_interests;
+          return updated;
+        });
+      }
+    }
+
+    // 2. Check for referral code
     const ref = searchParams?.get('ref');
     if (ref) {
       setReferrerCode(ref);
@@ -229,12 +256,19 @@ function EarlyAccessFormInner() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-shirley-plum-rich leading-tight">
-              Be part of the beginning.
+              Pre-book your SHIRLEY favourites.
             </h2>
 
             <p className="text-base text-shirley-plum-dark/80 font-normal leading-relaxed">
-              Something new is taking shape in women&apos;s wellness. Join the SHIRLEY Founding List and be among the first to hear about our journey, upcoming products, and early-access announcements.
+              Choose the products you&apos;re most excited about and register your interest in our upcoming launch.
             </p>
+
+            <div className="pt-1">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-shirley-blush-light text-shirley-berry-vibrant text-xs sm:text-sm font-semibold border border-shirley-blush-border/60">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <span>Free pre-booking. No payment or purchase commitment required.</span>
+              </span>
+            </div>
 
             {/* Referrer attribution badge if coming from a friend's link */}
             {referrerCode && (
@@ -478,12 +512,12 @@ function EarlyAccessFormInner() {
                 {loading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin text-shirley-plum-rich" />
-                    <span>SECURING YOUR FOUNDING SPOT...</span>
+                    <span>SECURING YOUR PRE-BOOKING...</span>
                   </>
                 ) : (
                   <>
                     <Sparkles className="w-4 h-4 text-shirley-plum-rich" />
-                    <span>JOIN THE FOUNDING LIST</span>
+                    <span>PRE-BOOK NOW</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
@@ -491,7 +525,7 @@ function EarlyAccessFormInner() {
 
               <div className="text-center">
                 <p className="text-xs text-shirley-plum-dark/60 font-medium">
-                  Free to join. No purchase required. No credit card collected.
+                  Free pre-booking. No purchase required. No credit card collected.
                 </p>
               </div>
             </div>

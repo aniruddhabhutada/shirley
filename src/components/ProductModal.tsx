@@ -12,6 +12,13 @@ interface ProductModalProps {
   onClose: () => void;
 }
 
+const PRODUCT_TO_PREFERENCE_MAP: Record<string, string> = {
+  cycora: 'Period Support',
+  inosia: 'PCOS Support',
+  'anemia-support': 'Anemia Support',
+  'uti-support': 'UTI Support',
+};
+
 export default function ProductModal({ product, onClose }: ProductModalProps) {
   if (!product) return null;
 
@@ -175,15 +182,15 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
           {/* Modal Action CTA */}
           <div className="pt-4 border-t border-shirley-blush-border/40 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-xs text-shirley-plum-dark/70 text-center sm:text-left">
-              Want first access when this formulation drops?
+              Want first access when this formulation drops? Free pre-booking open now.
             </div>
 
             <Link
-              href="/#founding-list"
+              href={`/?product=${encodeURIComponent(PRODUCT_TO_PREFERENCE_MAP[product.id] || product.id)}#founding-list`}
               onClick={onClose}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs font-bold tracking-wider uppercase shadow-glow-yellow transition-all"
             >
-              <span>JOIN FOUNDING LIST FOR EARLY ACCESS</span>
+              <span>PRE-BOOK THIS PRODUCT</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

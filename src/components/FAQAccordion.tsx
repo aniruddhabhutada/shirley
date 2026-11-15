@@ -10,6 +10,26 @@ export interface FAQItem {
 
 export const FAQS: FAQItem[] = [
   {
+    question: 'Is SHIRLEY pre-booking open?',
+    answer:
+      "Yes. You can currently register your interest in SHIRLEY's upcoming products through our free pre-booking form.",
+  },
+  {
+    question: 'Do I need to pay to pre-book?',
+    answer:
+      'No. Our current pre-booking registration is completely free. No payment is collected.',
+  },
+  {
+    question: 'Does pre-booking mean my product order is confirmed?',
+    answer:
+      'No. This is an expression of interest, not a confirmed product purchase or guaranteed reservation. We will share further details when our products are ready for launch.',
+  },
+  {
+    question: "How do I choose the products I'm interested in?",
+    answer:
+      "Select one or more of your favourite SHIRLEY products while completing the pre-booking registration form.",
+  },
+  {
     question: 'What is SHIRLEY?',
     answer:
       'SHIRLEY is an upcoming Indian women’s wellness brand creating thoughtful, science-informed nutritional rituals. We focus on menstrual wellness, hormonal balance education, and everyday nutritional support tailored to young women, making health approachable, transparent, and stigma-free.',
@@ -17,27 +37,17 @@ export const FAQS: FAQItem[] = [
   {
     question: 'Are SHIRLEY products available yet?',
     answer:
-      'Not yet. SHIRLEY products are currently in active formulation research, stability testing, and regulatory alignment in India. We are currently inviting women to join our free Founding List before our inaugural drop becomes commercially available.',
-  },
-  {
-    question: 'What is the Founding List?',
-    answer:
-      'The Founding List is our free pre-launch community. By joining, you secure priority access to our very first product batch, exclusive development updates, behind-the-scenes formulation insights, and private community invitations.',
-  },
-  {
-    question: 'Is joining the Founding List free?',
-    answer:
-      'Yes, 100% free. There are no registration fees, no payment details collected, and no obligation to purchase anything when products launch.',
+      'Not yet. SHIRLEY products are currently in active formulation research, stability testing, and regulatory alignment in India. We are currently inviting women to pre-book their interest for free before our inaugural drop becomes commercially available.',
   },
   {
     question: 'What is a Founding Member?',
     answer:
-      'A Founding Member is someone who joins our early-access community during our formative pre-launch phase. Each member receives a unique member verification number, an Instagram Story-ready invitation card, and personal referral privileges.',
+      'A Founding Member is someone who pre-books and joins our early-access community during our formative pre-launch phase. Each member receives a unique member verification number, an Instagram Story-ready invitation card, and personal referral privileges.',
   },
   {
-    question: 'When will SHIRLEY PERIOD SUPPORT launch?',
+    question: 'When will SHIRLEY products launch?',
     answer:
-      'SHIRLEY PERIOD SUPPORT is currently undergoing formulation development and sensory testing in India. Rather than rushing an unverified product, we are taking the time to ensure optimal taste, bioavailable ingredient stability, and complete regulatory compliance. Founding List members will receive first notification as soon as launch dates are finalized.',
+      'SHIRLEY formulations are currently undergoing formulation development and sensory testing in India. Rather than rushing an unverified product, we are taking the time to ensure optimal taste, bioavailable ingredient stability, and complete regulatory compliance. Pre-booked members will receive first notification as soon as launch dates are finalized.',
   },
   {
     question: 'What is SHIRLEY PCOS SUPPORT?',
@@ -52,7 +62,7 @@ export const FAQS: FAQItem[] = [
   {
     question: 'How can I receive launch updates?',
     answer:
-      'By registering your name and email on our Founding List. You may also provide an optional WhatsApp number if you prefer direct, concise drop alerts when early-access spots open.',
+      'By registering your name and email on our pre-booking form. You may also provide an optional WhatsApp number if you prefer direct, concise drop alerts when launch spots open.',
   },
   {
     question: 'How can I contact SHIRLEY?',

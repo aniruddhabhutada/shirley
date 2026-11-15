@@ -135,7 +135,7 @@ export default function OurStoryPage() {
             href="/#founding-list"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-colors shadow-glow-yellow"
           >
-            <span>JOIN THE FOUNDING LIST</span>
+            <span>PRE-BOOK NOW</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

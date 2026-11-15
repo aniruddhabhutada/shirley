@@ -82,7 +82,7 @@ export default function Header() {
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs font-bold tracking-wider uppercase shadow-glow-yellow transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
               <Sparkles className="w-3.5 h-3.5 text-shirley-plum-rich" />
-              <span>JOIN THE FOUNDING LIST</span>
+              <span>PRE-BOOK NOW</span>
             </Link>
           </div>
 
@@ -92,7 +92,7 @@ export default function Header() {
               href="/#founding-list"
               className="inline-flex items-center justify-center px-3 py-2 min-h-[36px] rounded-full bg-shirley-yellow-mango text-shirley-plum-rich text-[11px] font-bold tracking-wider uppercase shadow-sm active:scale-95 transition-transform"
             >
-              JOIN LIST
+              PRE-BOOK NOW
             </Link>
 
             <button
@@ -144,7 +144,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-shirley-yellow-mango text-shirley-plum-rich text-xs font-bold tracking-widest uppercase shadow-glow-yellow"
             >
-              <span>GET EARLY ACCESS</span>
+              <span>PRE-BOOK NOW</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

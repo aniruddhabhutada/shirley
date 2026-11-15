@@ -17,7 +17,7 @@ export default function AnnouncementBar() {
           href="/#founding-list"
           className="hidden md:inline-flex items-center gap-1 text-shirley-yellow-mango hover:underline font-semibold ml-1 group"
         >
-          <span>Join the Founding List for Free</span>
+          <span>Pre-Book Now for Free</span>
           <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       </div>

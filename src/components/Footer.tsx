@@ -92,14 +92,14 @@ export default function Footer() {
               FOUNDING COMMUNITY
             </p>
             <p className="text-xs text-shirley-blush/80 leading-relaxed">
-              Join the free Founding List today to receive priority access to our upcoming product batches and private invitations.
+              Pre-book for free today to receive priority access to our upcoming product batches and private invitations.
             </p>
             <Link
               href="/#founding-list"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-colors shadow-glow-yellow"
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>JOIN FOUNDING LIST</span>
+              <span>PRE-BOOK NOW</span>
             </Link>
           </div>
         </div>

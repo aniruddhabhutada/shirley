@@ -122,10 +122,20 @@ export default function ProductDetailPage({
             {/* Direct Early Access CTA */}
             <div className="pt-2">
               <Link
-                href="/#founding-list"
+                href={`/?product=${encodeURIComponent(
+                  product.id === 'cycora'
+                    ? 'Period Support'
+                    : product.id === 'inosia'
+                    ? 'PCOS Support'
+                    : product.id === 'anemia-support'
+                    ? 'Anemia Support'
+                    : product.id === 'uti-support'
+                    ? 'UTI Support'
+                    : product.name
+                )}#founding-list`}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-shirley-yellow-mango hover:bg-shirley-yellow-hover text-shirley-plum-rich text-xs sm:text-sm font-bold tracking-wider uppercase shadow-glow-yellow transition-all"
               >
-                <span>JOIN FOUNDING LIST FOR FIRST DROP</span>
+                <span>PRE-BOOK THIS PRODUCT</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

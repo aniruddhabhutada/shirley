@@ -11,6 +11,13 @@ interface ProductCardProps {
   onSelect: (product: Product) => void;
 }
 
+const PRODUCT_TO_PREFERENCE_MAP: Record<string, string> = {
+  cycora: 'Period Support',
+  inosia: 'PCOS Support',
+  'anemia-support': 'Anemia Support',
+  'uti-support': 'UTI Support',
+};
+
 export default function ProductCard({ product, onSelect }: ProductCardProps) {
   return (
     <div className="card-luxury rounded-3xl overflow-hidden flex flex-col justify-between group bg-white border border-shirley-blush-border/40">
@@ -89,10 +96,10 @@ export default function ProductCard({ product, onSelect }: ProductCardProps) {
         </div>
 
         <Link
-          href={`/products/${product.id}`}
+          href={`/?product=${encodeURIComponent(PRODUCT_TO_PREFERENCE_MAP[product.id] || product.id)}#founding-list`}
           className="inline-flex items-center gap-1.5 px-4 py-2.5 min-h-[40px] rounded-full bg-shirley-blush-light hover:bg-shirley-yellow-mango active:bg-shirley-yellow-mango text-shirley-plum-rich text-xs font-bold tracking-wider uppercase transition-all duration-200 group/btn"
         >
-          <span>DISCOVER THE PRODUCT</span>
+          <span>PRE-BOOK THIS PRODUCT</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
         </Link>
       </div>

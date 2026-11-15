@@ -93,13 +93,13 @@ export default function FoundingMemberSuccessPage() {
             Invitation Not Found
           </h1>
           <p className="text-xs text-shirley-plum-dark/80 leading-relaxed">
-            {error || 'This Founding Member link appears invalid or expired. You can join the Founding List for free below.'}
+            {error || 'This Founding Member link appears invalid or expired. You can pre-book for free below.'}
           </p>
           <Link
             href="/#founding-list"
             className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-shirley-yellow-mango text-shirley-plum-rich text-xs font-bold tracking-wider uppercase shadow-sm"
           >
-            <span>JOIN THE FOUNDING LIST</span>
+            <span>PRE-BOOK NOW</span>
           </Link>
         </div>
       </div>
@@ -152,15 +152,19 @@ export default function FoundingMemberSuccessPage() {
         {/* Page Top Headline */}
         <div className="text-center space-y-2.5 max-w-2xl mx-auto px-2">
           <span className="text-[11px] sm:text-xs font-bold tracking-widest uppercase text-shirley-berry-vibrant">
-            YOU ARE OFFICIALLY ON THE LIST
+            FOUNDING MEMBER
           </span>
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif text-shirley-plum-rich leading-snug">
-            Welcome to the SHIRLEY <br className="sm:hidden" />
-            beginning, {member.firstName}!
+            You&apos;re on the list. Your SHIRLEY journey starts here.
           </h1>
           <p className="text-xs sm:text-base text-shirley-plum-dark/80 leading-relaxed font-normal">
-            Your founding invitation is ready. Download your 1080×1920 Story Card or share it with your inner circle.
+            Your free pre-booking interest has been registered. We&apos;ll keep you updated as SHIRLEY gets closer to launch.
           </p>
+          <div className="pt-1">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-shirley-blush text-shirley-plum-rich text-[11px] font-semibold border border-shirley-blush-border">
+              Free pre-booking interest registered · Launch updates to follow
+            </span>
+          </div>
         </div>
 
         {/* Main Grid: Card Preview on Left/Center + Action Panel on Right */}
@@ -257,7 +261,7 @@ export default function FoundingMemberSuccessPage() {
                 <div className="space-y-2 text-xs text-shirley-plum-dark/80">
                   <div className="flex items-start gap-2">
                     <Sparkles className="w-3.5 h-3.5 text-shirley-yellow-hover flex-shrink-0 mt-0.5" />
-                    <span><strong>Priority First-Batch Access:</strong> Guaranteed allocation before public launch.</span>
+                    <span><strong>Priority First-Batch Updates:</strong> Priority notification before public launch.</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Heart className="w-3.5 h-3.5 text-shirley-berry-vibrant flex-shrink-0 mt-0.5" />
