@@ -7,7 +7,15 @@ import confetti from 'canvas-confetti';
 import { Sparkles, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, Loader2, Check } from 'lucide-react';
 import { RegistrationResult } from '@/lib/types';
 
-function EarlyAccessFormInner() {
+export interface EarlyAccessFormProps {
+  selectedProducts?: string[];
+  onProductsChange?: (products: string[]) => void;
+}
+
+function EarlyAccessFormInner({
+  selectedProducts,
+  onProductsChange,
+}: EarlyAccessFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -15,7 +23,19 @@ function EarlyAccessFormInner() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
-  const [productInterests, setProductInterests] = useState<string[]>([]);
+  
+  // Controlled or local product interests state for synchronization
+  const [localInterests, setLocalInterests] = useState<string[]>([]);
+  const productInterests = selectedProducts !== undefined ? selectedProducts : localInterests;
+
+  const updateProductInterests = (next: string[]) => {
+    if (onProductsChange) {
+      onProductsChange(next);
+    } else {
+      setLocalInterests(next);
+    }
+  };
+
   const [consent, setConsent] = useState(false);
 
   const [referrerCode, setReferrerCode] = useState<string | null>(null);
@@ -27,14 +47,6 @@ function EarlyAccessFormInner() {
 
   const PRODUCT_PREFERENCES = [
     {
-      id: 'PCOS Support',
-      name: 'PCOS SUPPORT',
-      description: 'Nutritional wellness support for women with PCOS.',
-      accentBorder: 'hover:border-shirley-lavender',
-      selectedBg: 'bg-shirley-lavender-light/50 border-shirley-plum-rich ring-1 ring-shirley-plum-rich/20',
-      selectedCheckbox: 'border-shirley-plum-rich bg-shirley-plum-rich',
-    },
-    {
       id: 'Period Support',
       name: 'PERIOD SUPPORT',
       description: 'A magnesium-based menstrual wellness drink.',
@@ -43,12 +55,12 @@ function EarlyAccessFormInner() {
       selectedCheckbox: 'border-shirley-berry-vibrant bg-shirley-berry-vibrant',
     },
     {
-      id: 'UTI Support',
-      name: 'UTI SUPPORT',
-      description: 'A nutritional wellness product focused on urinary tract health.',
-      accentBorder: 'hover:border-rose-400',
-      selectedBg: 'bg-rose-50/60 border-shirley-plum-deep ring-1 ring-shirley-plum-deep/20',
-      selectedCheckbox: 'border-shirley-plum-deep bg-shirley-plum-deep',
+      id: 'PCOS Support',
+      name: 'PCOS SUPPORT',
+      description: 'Nutritional wellness support for women with PCOS.',
+      accentBorder: 'hover:border-shirley-lavender',
+      selectedBg: 'bg-shirley-lavender-light/50 border-shirley-plum-rich ring-1 ring-shirley-plum-rich/20',
+      selectedCheckbox: 'border-shirley-plum-rich bg-shirley-plum-rich',
     },
     {
       id: 'Anemia Support',
@@ -57,6 +69,14 @@ function EarlyAccessFormInner() {
       accentBorder: 'hover:border-amber-400',
       selectedBg: 'bg-shirley-peach-light/60 border-amber-700 ring-1 ring-amber-700/20',
       selectedCheckbox: 'border-amber-700 bg-amber-700',
+    },
+    {
+      id: 'UTI Support',
+      name: 'UTI SUPPORT',
+      description: 'A nutritional wellness product focused on urinary tract health.',
+      accentBorder: 'hover:border-rose-400',
+      selectedBg: 'bg-rose-50/60 border-shirley-plum-deep ring-1 ring-shirley-plum-deep/20',
+      selectedCheckbox: 'border-shirley-plum-deep bg-shirley-plum-deep',
     },
   ];
 
@@ -67,7 +87,7 @@ function EarlyAccessFormInner() {
     } else {
       next = [...productInterests, optionId];
     }
-    setProductInterests(next);
+    updateProductInterests(next);
 
     // Immediately remove inline validation error once at least one product is selected
     if (next.length > 0 && errors.product_interests) {
@@ -109,7 +129,7 @@ function EarlyAccessFormInner() {
       }
 
       if (matchedId) {
-        setProductInterests([matchedId]);
+        updateProductInterests([matchedId]);
         setErrors((prev) => {
           if (!prev.product_interests) return prev;
           const updated = { ...prev };
@@ -542,10 +562,16 @@ function EarlyAccessFormInner() {
   );
 }
 
-export default function EarlyAccessForm() {
+export default function EarlyAccessForm({
+  selectedProducts,
+  onProductsChange,
+}: EarlyAccessFormProps = {}) {
   return (
     <Suspense fallback={<div className="py-20 text-center text-shirley-plum-rich">Loading registration...</div>}>
-      <EarlyAccessFormInner />
+      <EarlyAccessFormInner
+        selectedProducts={selectedProducts}
+        onProductsChange={onProductsChange}
+      />
     </Suspense>
   );
 }

@@ -1,17 +1,25 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import HeroSection from '@/components/HeroSection';
-import ProductShowcase from '@/components/ProductShowcase';
+import ProductCatalogue from '@/components/ProductCatalogue';
 import EarlyAccessForm from '@/components/EarlyAccessForm';
 import FAQAccordion from '@/components/FAQAccordion';
 
 export default function HomePage() {
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+
   return (
     <>
       <HeroSection />
-      <ProductShowcase />
-      <EarlyAccessForm />
+      <ProductCatalogue
+        selectedProducts={selectedProducts}
+        onProductsChange={setSelectedProducts}
+      />
+      <EarlyAccessForm
+        selectedProducts={selectedProducts}
+        onProductsChange={setSelectedProducts}
+      />
       <FAQAccordion />
     </>
   );
