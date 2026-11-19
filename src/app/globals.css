@@ -68,3 +68,15 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #C84B83;
 }
+
+/* Hide scrollbar for clean horizontal carousel swiping */
+.scrollbar-none::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none,
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
